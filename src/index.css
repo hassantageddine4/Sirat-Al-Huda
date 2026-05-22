@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    box-sizing: border-box;
+  }
+
+  html, body, #root {
+    overscroll-behavior: none;
+    height: 100%;
+    height: 100dvh;
+    overflow: hidden;
+    background-color: #FAF7F2;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", sans-serif;
+  }
+
+  /* Safe area support for iOS notch */
+  :root {
+    --sat: env(safe-area-inset-top);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+    --sar: env(safe-area-inset-right);
+  }
+
+  /* Smooth scrolling inside containers */
+  .scroll-smooth {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
+
+  /* Remove default input styles on iOS */
+  input, textarea, select {
+    -webkit-appearance: none;
+    border-radius: 0;
+  }
+
+  /* Prevent text selection on UI elements */
+  button, a {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+}
+
+@layer utilities {
+  .safe-top    { padding-top   : env(safe-area-inset-top);    }
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-left   { padding-left  : env(safe-area-inset-left);   }
+  .safe-right  { padding-right : env(safe-area-inset-right);  }
+
+  .pb-nav { padding-bottom: calc(6rem + env(safe-area-inset-bottom)); }
+  .pb-safe { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
+  .pt-safe { padding-top   : max(0.5rem, env(safe-area-inset-top)); }
+
+  /* Press animation */
+  .press {
+    transition: transform 0.1s ease, opacity 0.1s ease;
+  }
+  .press:active {
+    transform: scale(0.96);
+    opacity: 0.85;
+  }
+
+  /* Card style */
+  .card {
+    background: white;
+    border-radius: 1rem;
+    border: 1px solid #E8E2D8;
+    box-shadow: 0 4px 16px rgba(10,8,6,0.08);
+  }
+
+  /* Screen container */
+  .screen {
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: #FAF7F2;
+  }
+
+  /* Scrollable content area */
+  .scroll-area {
+
+
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* ── Page transition animations ── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@layer utilities {
+  .animate-fade-in {
+    animation: fadeIn 0.3s ease both;
+  }
+
+  .animate-spin {
+    animation: spin 0.9s linear infinite;
+  }
+
+  /* Staggered children fade-in */
+  .animate-fade-in:nth-child(1) { animation-delay: 0s;     }
+  .animate-fade-in:nth-child(2) { animation-delay: 0.05s;  }
+  .animate-fade-in:nth-child(3) { animation-delay: 0.10s;  }
+  .animate-fade-in:nth-child(4) { animation-delay: 0.15s;  }
+  .animate-fade-in:nth-child(5) { animation-delay: 0.20s;  }
+}

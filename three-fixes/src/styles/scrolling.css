@@ -1,0 +1,89 @@
+/* src/styles/scrolling.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Smooth, native-feeling scrolling for all .scroll-area containers.
+ *
+ * Apply by importing once at the top of your app entry (e.g. main.jsx):
+ *   import "./styles/scrolling.css";
+ *
+ * Or paste the rules into your existing global stylesheet.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+/* All scrollable areas in the app */
+.scroll-area,
+.screen {
+  /* iOS native momentum scrolling — single most important rule */
+  -webkit-overflow-scrolling: touch;
+
+  /* Don't bounce the parent when the child reaches its end */
+  overscroll-behavior: contain;
+
+  /* Hardware-accelerated scrolling */
+  transform: translateZ(0);
+  will-change: scroll-position;
+
+  /* Sub-pixel smoothing during scroll */
+  -webkit-transform-style: preserve-3d;
+
+  /* Prevent text selection during scroll, which causes janky touches */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Re-enable text selection inside content that needs it (verses, hadith, journals) */
+.scroll-area p,
+.scroll-area input,
+.scroll-area textarea,
+.scroll-area [data-selectable] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Hide scrollbars but keep scrolling functional — iOS-native feel */
+.scroll-area::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+}
+.scroll-area {
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE/Edge */
+}
+
+/* Make sure scroll containers actually fill available space and scroll */
+.scroll-area {
+  flex: 1 1 auto;
+  min-height: 0;               /* CRITICAL — without this, flex children can't scroll */
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Smooth scroll-to-anchor behavior (e.g. for ayah jumps in Quran) */
+html, .scroll-area {
+  scroll-behavior: smooth;
+}
+
+/* Disable smooth-scroll for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html, .scroll-area {
+    scroll-behavior: auto;
+  }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Press feedback — ensure buttons have a smooth press animation
+ * that doesn't interfere with scrolling */
+.press {
+  transition: transform 0.12s ease-out, opacity 0.12s ease-out;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+.press:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
