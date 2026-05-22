@@ -2,9 +2,8 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AppProvider, useApp } from "./context/AppContext";
-import { setupNotificationListeners, schedulePrayerNotifications } from "./services/notificationService";
+import { setupNotificationListeners } from "./services/notificationService";
 import { App as CapacitorApp } from "@capacitor/app";
-
 import Onboarding       from "./pages/Onboarding";
 import Auth             from "./pages/Auth";
 import Login            from "./pages/Login";
@@ -194,21 +193,12 @@ function AppRoutes() {
 function NotificationBootstrap() {
   useEffect(() => {
     setupNotificationListeners();
-    schedulePrayerNotifications().catch(() => {});
 
     let removeListener;
     try {
       CapacitorApp.addListener("appStateChange", ({ isActive }) => {
         if (isActive) {
-          const lastRaw = localStorage.getItem("sirat_notif_last_scheduled");
-          if (lastRaw) {
-            try {
-              const { scheduledAt } = JSON.parse(lastRaw);
-              const age = Date.now() - new Date(scheduledAt).getTime();
-              if (age < 10 * 60 * 1000) return;
-            } catch {}
-          }
-          schedulePrayerNotifications().catch(() => {});
+          window.dispatchEvent(new Event('sirat-app-foregrounded'));
         }
       }).then(handle => { removeListener = handle; });
     } catch {}

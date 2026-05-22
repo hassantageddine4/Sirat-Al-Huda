@@ -36,8 +36,8 @@ const ID_RANGE = {
 };
 
 // How many days ahead to schedule. iOS allows up to 64 pending notifications;
-// 7 days × ~10 per day = 70, so we cap at 7 and trim Tahajjud if disabled.
-const SCHEDULE_DAYS = 7;
+// 5 days × 11 max notifications per day = 55, safely under the 64 limit.
+const SCHEDULE_DAYS = 5;
 
 const PRAYER_NAMES = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 const PRAYER_NAMES_ARABIC = {
@@ -115,6 +115,28 @@ export async function setupNotificationListeners() {
     // We just listen for taps so we can navigate the user appropriately.
     LocalNotifications.removeAllListeners().catch(() => {});
 
+    if (Capacitor.getPlatform() === 'android') {
+      try {
+        await LocalNotifications.createChannel({
+          id: 'prayer-adhan-channel',
+          name: 'Prayer Times (Adhan)',
+          importance: 5,
+          sound: 'adhan.wav',
+          visibility: 1,
+          vibration: true,
+        });
+        await LocalNotifications.createChannel({
+          id: 'prayer-default-channel',
+          name: 'Prayer Times (Default)',
+          importance: 4,
+          visibility: 1,
+          vibration: true,
+        });
+      } catch (e) {
+        console.warn('Could not create notification channels', e);
+      }
+    }
+
     LocalNotifications.addListener("localNotificationActionPerformed", (event) => {
       const data = event?.notification?.extra ?? {};
       // Future: navigate based on data.category
@@ -185,12 +207,17 @@ export async function schedulePrayerNotifications({ prayerTimes, prefs, fetchTim
       // Skip if the fire time has already passed
       if (fireAt.getTime() < now.getTime() + 30_000) return;
 
+      const isAndroid = Capacitor.getPlatform() === 'android';
+      const soundFile = prefs?.adhanEnabled ? (isAndroid ? "adhan.wav" : "adhan.caf") : undefined;
+      const channelId = isAndroid ? (prefs?.adhanEnabled ? 'prayer-adhan-channel' : 'prayer-default-channel') : undefined;
+
       notifications.push({
         id:    ID_RANGE.prayer + dayOffset * 5 + prayerIdx,
         title: prayerTitle(prayer),
         body:  prayerBody(prayer, offsetMin),
         schedule: { at: fireAt, allowWhileIdle: true },
-        sound:    prefs?.adhanEnabled ? "adhan.caf" : "default",
+        sound:    soundFile,
+        channelId: channelId,
         extra:    { category: "prayer", prayer, offsetMin },
       });
     });
@@ -262,12 +289,15 @@ export async function scheduleDailyReminders(prefs) {
 
       const { title, body } = cat.getCopy(fireAt);
 
+      const isAndroid = Capacitor.getPlatform() === 'android';
+
       notifications.push({
         id:       cat.range + dayOffset,
         title,
         body,
         schedule: { at: fireAt, allowWhileIdle: true },
-        sound:    "default",
+        sound:    isAndroid ? undefined : "default",
+        channelId: isAndroid ? 'prayer-default-channel' : undefined,
         extra:    { category: cat.key, dayOffset },
       });
     }

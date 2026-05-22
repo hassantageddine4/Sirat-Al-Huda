@@ -116,6 +116,21 @@ export function usePrayerNotifications() {
 
       await refreshLocationInternal();
     })();
+
+    const onForeground = () => {
+      const lastRaw = localStorage.getItem("sirat_notif_last_scheduled");
+      if (lastRaw) {
+        try {
+          const { scheduledAt } = JSON.parse(lastRaw);
+          const age = Date.now() - new Date(scheduledAt).getTime();
+          // Skip if scheduled recently (within 12 hours)
+          if (age < 12 * 60 * 60 * 1000) return;
+        } catch {}
+      }
+      refreshLocationInternal().catch(() => {});
+    };
+    window.addEventListener('sirat-app-foregrounded', onForeground);
+    return () => window.removeEventListener('sirat-app-foregrounded', onForeground);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
