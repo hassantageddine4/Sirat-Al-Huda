@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sirat — Home Screen Preview</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --p:#0F3D2E;--pl:#1A5C44;--a:#C8A951;
+  --iv:#FAF7F2;--ow:#F4F0E8;
+  --ink:#1C1814;--mu:#7A7268;--br:#E8E2D8;
+}
+body{
+  background:linear-gradient(135deg,#070d11,#0e1823);
+  min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding:44px 20px 64px;
+  font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;
+}
+.eyebrow{color:rgba(200,169,81,.65);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px;text-align:center}
+.pg-title{color:#fff;font-size:32px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px;text-align:center}
+.pg-sub{color:rgba(255,255,255,.38);font-size:14px;margin-bottom:36px;text-align:center}
+
+.phone{
+  width:375px;height:812px;border-radius:52px;overflow:hidden;position:relative;background:var(--iv);
+  box-shadow:0 60px 120px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.07),inset 0 0 0 1.5px rgba(0,0,0,.45);
+}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#000;border-radius:0 0 22px 22px;z-index:100}
+.inner{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden}
+.scr{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.scr::-webkit-scrollbar{width:0}
+
+/* Header */
+.hdr{flex-shrink:0;background:linear-gradient(135deg,#0F3D2E,#1A5C44);padding:44px 20px 20px}
+.h-top{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px}
+.h-greet{font-size:13px;color:rgba(255,255,255,.6);margin-bottom:2px}
+.h-name{font-size:24px;font-weight:800;color:#fff}
+.h-gear{width:34px;height:34px;border-radius:17px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:16px}
+.h-strip{background:rgba(255,255,255,.12);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px}
+.h-bar-w{flex:1}
+.h-bl{font-size:11px;color:rgba(255,255,255,.65);margin-bottom:6px}
+.h-bar{height:5px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden}
+.h-fill{height:100%;background:var(--a);border-radius:99px;width:60%}
+.h-num{width:40px;height:40px;border-radius:20px;background:rgba(200,169,81,.2);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:var(--a)}
+
+.content{padding:16px;display:flex;flex-direction:column;gap:14px}
+
+/* Verse — compact */
+.verse{border-radius:16px;background:linear-gradient(135deg,#0F3D2E,#1A5C44);padding:14px 16px}
+.v-ol{font-size:9px;font-weight:700;letter-spacing:.22em;color:var(--a);margin-bottom:8px;text-transform:uppercase}
+.v-ar{font-size:16px;color:rgba(255,255,255,.92);text-align:right;line-height:1.7;margin-bottom:8px;direction:rtl}
+.v-tr{font-size:12px;color:rgba(255,255,255,.65);font-style:italic;line-height:1.5;margin-bottom:4px}
+.v-rf{font-size:10px;color:rgba(200,169,81,.82);font-weight:600}
+
+/* Calendar */
+.cal{background:#fff;border-radius:18px;border:1px solid var(--br);overflow:hidden;display:flex;box-shadow:0 2px 12px rgba(10,8,6,.07)}
+.cal-bar{width:4px;background:var(--a);flex-shrink:0}
+.cal-body{flex:1;padding:14px}
+.cal-dr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.cal-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px}
+.cal-h{font-size:15px;font-weight:800;color:var(--ink);line-height:1.2}
+.cal-y{font-size:11px;color:var(--mu)}
+.cal-g{font-size:13px;font-weight:600;color:var(--ink);text-align:right;line-height:1.3}
+.cal-gs{font-size:11px;color:var(--mu);text-align:right}
+.cal-div{height:1px;background:var(--br);margin-bottom:10px}
+.cal-ev{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.cal-ev:last-child{margin-bottom:0}
+.ev-dot{width:6px;height:6px;border-radius:3px;flex-shrink:0}
+.ev-nm{font-size:12px;font-weight:600;color:var(--ink);flex:1}
+.ev-hj{font-size:10px;color:var(--mu)}
+.ev-bd{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--ow);color:var(--mu)}
+
+/* Prayers */
+.sec-hd{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.pr-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--br)}
+.pr-row{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid var(--br)}
+.pr-row:last-child{border-bottom:none}
+.pr-row.nxt{background:rgba(15,61,46,.04)}
+.pr-nm{font-size:13px;font-weight:600;color:var(--ink)}
+.pr-tm{font-size:11px;color:var(--mu)}
+.pr-tag{font-size:8px;font-weight:800;color:var(--a);letter-spacing:.8px;margin-left:5px}
+.pr-chk{width:26px;height:26px;border-radius:13px;border:1.5px solid var(--br);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.pr-chk.dn{background:var(--p);border-color:var(--p);color:#fff}
+
+/* Streak */
+.str{background:#fff;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;border:1px solid var(--br)}
+.str-ico{width:40px;height:40px;border-radius:20px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px}
+.str-n{font-size:15px;font-weight:700;color:var(--ink)}
+.str-s{font-size:11px;color:var(--mu)}
+.str-big{font-size:28px;font-weight:900;color:var(--p);text-align:right;line-height:1}
+.str-d{font-size:10px;color:var(--mu);text-align:right}
+
+/* Nav */
+.bnav{flex-shrink:0;background:#fff;border-top:1px solid var(--br);display:flex;padding:8px 0 20px}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;padding:6px 0 2px;gap:2px}
+.nlbl{font-size:10px;font-weight:500;color:#C4BDB0}
+.nlbl.a{font-weight:700;color:var(--p)}
+.ndot{width:4px;height:4px;border-radius:2px;background:var(--a)}
+</style>
+</head>
+<body>
+
+<p class="eyebrow">Sirat · Home Screen</p>
+<h1 class="pg-title">Home — Updated</h1>
+<p class="pg-sub">Compact verse · Islamic Calendar · Prayers · Streak</p>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="inner">
+
+    <div class="hdr">
+      <div class="h-top">
+        <div><div class="h-greet">Good morning,</div><div class="h-name">Hassan</div></div>
+        <div class="h-gear">⚙️</div>
+      </div>
+      <div class="h-strip">
+        <div class="h-bar-w">
+          <div class="h-bl">3 of 5 prayers today</div>
+          <div class="h-bar"><div class="h-fill"></div></div>
+        </div>
+        <div class="h-num">3</div>
+      </div>
+    </div>
+
+    <div class="scr">
+      <div class="content">
+
+        <!-- ① Verse — compact -->
+        <div class="verse">
+          <div class="v-ol">Verse of the Day</div>
+          <div class="v-ar">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div>
+          <div class="v-tr">"Indeed, with hardship comes ease."</div>
+          <div class="v-rf">Quran 94:6</div>
+        </div>
+
+        <!-- ② Islamic Calendar -->
+        <div class="cal">
+          <div class="cal-bar"></div>
+          <div class="cal-body">
+            <div class="cal-dr">
+              <div>
+                <div class="cal-lbl" style="color:var(--a)">Islamic Date</div>
+                <div class="cal-h">13 Shawwal</div>
+                <div class="cal-y">1446 AH</div>
+              </div>
+              <div>
+                <div class="cal-lbl" style="color:var(--mu);text-align:right">Today</div>
+                <div class="cal-g">April 11</div>
+                <div class="cal-gs">Friday, 2026</div>
+              </div>
+            </div>
+            <div class="cal-div"></div>
+            <div class="cal-lbl" style="color:var(--mu);margin-bottom:8px">Upcoming Events</div>
+            <div class="cal-ev"><div class="ev-dot" style="background:#C8A951"></div><div class="ev-nm">Laylat al-Qadr</div><div class="ev-hj">27 Ramadan</div><div class="ev-bd">12d</div></div>
+            <div class="cal-ev"><div class="ev-dot" style="background:#2E7D5A"></div><div class="ev-nm">Eid al-Fitr</div><div class="ev-hj">1 Shawwal</div><div class="ev-bd">15d</div></div>
+            <div class="cal-ev"><div class="ev-dot" style="background:#0F3D2E"></div><div class="ev-nm">Eid al-Adha</div><div class="ev-hj">10 Dhul Hijja</div><div class="ev-bd">76d</div></div>
+          </div>
+        </div>
+
+        <!-- ③ Today's Prayers -->
+        <div>
+          <div class="sec-hd">Today's Prayers</div>
+          <div class="pr-card">
+            <div class="pr-row"><div style="flex:1"><div class="pr-nm">Fajr</div><div class="pr-tm">5:42 AM</div></div><div class="pr-chk dn">✓</div></div>
+            <div class="pr-row"><div style="flex:1"><div class="pr-nm">Dhuhr</div><div class="pr-tm">12:30 PM</div></div><div class="pr-chk dn">✓</div></div>
+            <div class="pr-row nxt">
+              <div style="width:6px;height:6px;border-radius:3px;background:var(--a);margin-right:8px;flex-shrink:0"></div>
+              <div style="flex:1"><div class="pr-nm">Asr <span class="pr-tag">NEXT</span></div><div class="pr-tm">3:45 PM</div></div>
+              <div class="pr-chk dn">✓</div>
+            </div>
+            <div class="pr-row"><div style="flex:1"><div class="pr-nm">Maghrib</div><div class="pr-tm">6:18 PM</div></div><div class="pr-chk"></div></div>
+            <div class="pr-row"><div style="flex:1"><div class="pr-nm">Isha</div><div class="pr-tm">7:52 PM</div></div><div class="pr-chk"></div></div>
+          </div>
+        </div>
+
+        <!-- ④ Streak -->
+        <div class="str">
+          <div class="str-ico">🔥</div>
+          <div style="flex:1"><div class="str-n">14-day streak</div><div class="str-s">Keep it up — pray all 5 today</div></div>
+          <div><div class="str-big">14</div><div class="str-d">days</div></div>
+        </div>
+
+        <div style="height:8px"></div>
+      </div>
+    </div>
+
+    <div class="bnav">
+      <div class="ni">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12V21H15V15H9V21H3V12Z" fill="#0F3D2E" stroke="#0F3D2E" stroke-width="1.75" stroke-linejoin="round"/></svg>
+        <span class="nlbl a">Home</span><div class="ndot"></div>
+      </div>
+      <div class="ni">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M4 4C4 3.44772 4.44772 3 5 3H16L20 7V20C20 20.5523 19.5523 21 19 21H5C4.44772 21 4 20.5523 4 20V4Z" stroke="#C4BDB0" stroke-width="1.75" stroke-linejoin="round"/><path d="M15 3V7H20M8 12H16M8 16H13" stroke="#C4BDB0" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span class="nlbl">Qur'an</span>
+      </div>
+      <div class="ni">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#C4BDB0" stroke-width="1.75"/><path d="M9 12L11 14L15 10" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="nlbl">Practice</span>
+      </div>
+      <div class="ni">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="#C4BDB0" stroke-width="1.75"/><path d="M3 19C3 16.2386 5.68629 14 9 14C12.3137 14 15 16.2386 15 19" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg>
+        <span class="nlbl">Community</span>
+      </div>
+      <div class="ni">
+        <svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#C4BDB0" stroke-width="1.75"/><path d="M4 20C4 17.2386 7.58172 15 12 15C16.4183 15 20 17.2386 20 20" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg>
+        <span class="nlbl">Profile</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

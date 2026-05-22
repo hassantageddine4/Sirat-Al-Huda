@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Sirat Al Huda — Info.plist
+  Replace ios/App/App/Info.plist with this file (or merge the keys below
+  into your existing one).
+
+  CRITICAL keys for the deep-link / auth fix:
+    • CFBundleURLTypes      — registers the sirat:// custom URL scheme
+    • LSApplicationQueriesSchemes — lets the app open https/mailto from links
+    • NSAppTransportSecurity — allows HTTPS to Supabase + Quran.com
+-->
+<plist version="1.0">
+<dict>
+  <key>CFBundleDevelopmentRegion</key>
+  <string>en</string>
+
+  <key>CFBundleDisplayName</key>
+  <string>Sirat Al Huda</string>
+
+  <key>CFBundleExecutable</key>
+  <string>$(EXECUTABLE_NAME)</string>
+
+  <key>CFBundleIdentifier</key>
+  <string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+
+  <key>CFBundleInfoDictionaryVersion</key>
+  <string>6.0</string>
+
+  <key>CFBundleName</key>
+  <string>$(PRODUCT_NAME)</string>
+
+  <key>CFBundlePackageType</key>
+  <string>APPL</string>
+
+  <key>CFBundleShortVersionString</key>
+  <string>1.0.0</string>
+
+  <key>CFBundleVersion</key>
+  <string>1</string>
+
+  <key>LSRequiresIPhoneOS</key>
+  <true/>
+
+  <!-- ── DEEP LINKING ──────────────────────────────────────────────── -->
+  <!-- Registers sirat:// so iOS knows our app handles those URLs.    -->
+  <!-- Without this entry the iOS simulator treats sirat://auth/...    -->
+  <!-- as an unknown scheme and Supabase callbacks vanish.             -->
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeRole</key>
+      <string>Editor</string>
+      <key>CFBundleURLName</key>
+      <string>com.sirat.app.auth</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>sirat</string>
+      </array>
+    </dict>
+  </array>
+
+  <!-- Allow opening external https / mailto URLs from inside the app. -->
+  <key>LSApplicationQueriesSchemes</key>
+  <array>
+    <string>https</string>
+    <string>http</string>
+    <string>mailto</string>
+    <string>tel</string>
+  </array>
+
+  <!-- ── PERMISSIONS ───────────────────────────────────────────────── -->
+  <key>NSMicrophoneUsageDescription</key>
+  <string>Sirat Al Huda uses the microphone to record your Qur'an recitation for pronunciation feedback. Recordings are sent securely for transcription and are not stored after analysis.</string>
+
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Sirat Al Huda uses your location to calculate accurate prayer times and the Qibla direction.</string>
+
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>Sirat Al Huda uses your location to calculate accurate prayer times and send timely prayer reminders.</string>
+
+  <key>NSSpeechRecognitionUsageDescription</key>
+  <string>Sirat Al Huda uses speech recognition to provide feedback on your Qur'an recitation pronunciation.</string>
+
+  <key>NSCameraUsageDescription</key>
+  <string>Sirat Al Huda may use the camera if you choose to add a profile photo.</string>
+
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>Sirat Al Huda may use your photo library if you choose to add a profile photo.</string>
+
+  <!-- ── NETWORK SECURITY ──────────────────────────────────────────── -->
+  <!-- HTTPS-only (no arbitrary loads). Supabase + Quran.com are HTTPS. -->
+  <key>NSAppTransportSecurity</key>
+  <dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <false/>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+  </dict>
+
+  <!-- ── UI / LAUNCH ───────────────────────────────────────────────── -->
+  <key>UILaunchStoryboardName</key>
+  <string>LaunchScreen</string>
+
+  <key>UIMainStoryboardFile</key>
+  <string>Main</string>
+
+  <key>UISupportedInterfaceOrientations</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+  </array>
+
+  <key>UISupportedInterfaceOrientations~ipad</key>
+  <array>
+    <string>UIInterfaceOrientationPortrait</string>
+    <string>UIInterfaceOrientationPortraitUpsideDown</string>
+    <string>UIInterfaceOrientationLandscapeLeft</string>
+    <string>UIInterfaceOrientationLandscapeRight</string>
+  </array>
+
+  <key>UIRequiredDeviceCapabilities</key>
+  <array>
+    <string>armv7</string>
+  </array>
+
+  <key>UIStatusBarStyle</key>
+  <string>UIStatusBarStyleDarkContent</string>
+
+  <key>UIViewControllerBasedStatusBarAppearance</key>
+  <true/>
+
+  <!-- App icon set name -->
+  <key>CFBundleIconName</key>
+  <string>AppIcon</string>
+</dict>
+</plist>

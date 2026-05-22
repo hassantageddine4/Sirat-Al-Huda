@@ -1,0 +1,20 @@
+// Add these imports near the top of src/App.jsx (alongside existing page imports):
+
+import Dhikr           from "./pages/Dhikr";
+import MyProgress      from "./pages/MyProgress";
+import EditProfile     from "./pages/account/EditProfile";
+import ChangePassword  from "./pages/account/ChangePassword";
+import LanguagePicker  from "./pages/account/LanguagePicker";
+import DeleteAccount   from "./pages/account/DeleteAccount";
+
+
+// Add these <Route> entries inside your <Routes> block.
+// Place them anywhere among the other routes (order doesn't matter for these).
+
+<Route path="/dhikr"                  element={<Dhikr />} />
+<Route path="/dhikr/:id"              element={<Dhikr />} />
+<Route path="/progress"               element={<MyProgress />} />
+<Route path="/account/edit-profile"   element={<EditProfile />} />
+<Route path="/account/change-password" element={<ChangePassword />} />
+<Route path="/account/language"       element={<LanguagePicker />} />
+<Route path="/account/delete"         element={<DeleteAccount />} />

@@ -1,0 +1,49 @@
+{
+  "appId": "com.sirat.app",
+  "appName": "Sirat Al Huda",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https",
+    "iosScheme": "sirat",
+    "allowNavigation": [
+      "*.supabase.co",
+      "supabase.co",
+      "lonvxszifdululavoemp.supabase.co",
+      "*.supabase.io",
+      "*.openai.com",
+      "api.quran.com"
+    ]
+  },
+  "ios": {
+    "scheme": "Sirat",
+    "contentInset": "always",
+    "limitsNavigationsToAppBoundDomains": false
+  },
+  "plugins": {
+    "StatusBar": {
+      "style": "dark",
+      "backgroundColor": "#0F3D2E"
+    },
+    "Keyboard": {
+      "resize": "body",
+      "style": "dark"
+    },
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon_config_sample",
+      "iconColor": "#0F3D2E"
+    },
+    "App": {
+      "appUrlOpen": {
+        "scheme": "sirat",
+        "host": "auth"
+      }
+    },
+    "SplashScreen": {
+      "launchShowDuration": 1500,
+      "launchAutoHide": true,
+      "backgroundColor": "#FAF7F2",
+      "iosSpinnerStyle": "small",
+      "spinnerColor": "#C8A951"
+    }
+  }
+}

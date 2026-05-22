@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sirat — Full App Preview</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{--p:#0F3D2E;--pl:#1A5C44;--pd:#082819;--a:#C8A951;--al:#D9BF7A;--ad:#A88730;--iv:#FAF7F2;--ow:#F4F0E8;--pr:#EDE7D9;--wh:#FFFFFF;--ink:#1C1814;--bd:#3A3530;--mu:#7A7268;--su:#A09890;--br:#E8E2D8}
+body{background:linear-gradient(135deg,#060c10 0%,#0d1a24 100%);min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:36px 16px 64px;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif}
+.ey{color:rgba(200,169,81,.65);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px;text-align:center}
+.pt{color:#fff;font-size:34px;font-weight:800;letter-spacing:-.5px;margin-bottom:6px;text-align:center}
+.ps{color:rgba(255,255,255,.38);font-size:14px;margin-bottom:30px;text-align:center}
+.picker{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;max-width:680px;margin-bottom:32px}
+.pick{padding:7px 15px;border-radius:99px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:rgba(255,255,255,.45);font-size:12px;font-weight:600;cursor:pointer;transition:all .18s;letter-spacing:.03em;white-space:nowrap}
+.pick:hover{background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.pick.on{background:var(--a);color:var(--p);border-color:var(--a)}
+.phone{width:375px;height:812px;border-radius:52px;overflow:hidden;position:relative;background:var(--iv);box-shadow:0 60px 120px rgba(0,0,0,.85),0 0 0 1px rgba(255,255,255,.07),inset 0 0 0 1.5px rgba(0,0,0,.45)}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#000;border-radius:0 0 22px 22px;z-index:100}
+.s{width:100%;height:100%;display:flex;flex-direction:column;overflow:hidden;animation:fu .25s ease}
+@keyframes fu{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.sc{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.sc::-webkit-scrollbar{width:0}
+.ghdr{flex-shrink:0;background:linear-gradient(135deg,#0F3D2E,#1A5C44);padding:44px 20px 20px}
+.gt{font-size:24px;font-weight:800;color:#fff;margin-bottom:2px}
+.gs{font-size:13px;color:rgba(255,255,255,.55)}
+.bnav{flex-shrink:0;background:#fff;border-top:1px solid var(--br);display:flex;padding:8px 0 20px}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;padding:6px 0 2px;gap:2px;cursor:pointer}
+.nlbl{font-size:10px;font-weight:500;color:#C4BDB0}
+.nlbl.a{font-weight:700;color:var(--p)}
+.ndot{width:4px;height:4px;border-radius:2px;background:var(--a)}
+.card{background:#fff;border-radius:16px;border:1px solid var(--br);box-shadow:0 2px 10px rgba(0,0,0,.06)}
+.content{padding:16px;display:flex;flex-direction:column;gap:14px}
+/* ─ ONBOARDING ─ */
+.ob{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(160deg,#04100A,#0F3D2E 55%,#1A5C44);position:relative;overflow:hidden;padding:40px 32px}
+.ob-geo{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(200,169,81,.065) 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
+.ob-z{position:relative;z-index:1}
+.ob-ring{width:82px;height:82px;border-radius:41px;border:1px solid rgba(200,169,81,.28);display:flex;align-items:center;justify-content:center}
+.ob-in{width:60px;height:60px;border-radius:30px;border:1px solid rgba(200,169,81,.5);background:rgba(200,169,81,.08);display:flex;align-items:center;justify-content:center}
+/* ─ HOME ─ */
+.h-hdr{flex-shrink:0;background:linear-gradient(135deg,#0F3D2E,#1A5C44);padding:44px 20px 20px}
+.verse{border-radius:16px;background:linear-gradient(135deg,#0F3D2E,#1A5C44);padding:14px 16px}
+.v-ol{font-size:9px;font-weight:700;letter-spacing:.22em;color:var(--a);margin-bottom:8px;text-transform:uppercase}
+.v-ar{font-size:16px;color:rgba(255,255,255,.92);text-align:right;line-height:1.7;margin-bottom:8px;direction:rtl}
+.v-tr{font-size:12px;color:rgba(255,255,255,.65);font-style:italic;line-height:1.5;margin-bottom:4px}
+.v-rf{font-size:10px;color:rgba(200,169,81,.82);font-weight:600}
+.cal{background:#fff;border-radius:18px;border:1px solid var(--br);overflow:hidden;display:flex;box-shadow:0 2px 12px rgba(10,8,6,.07)}
+.cal-bar{width:4px;background:var(--a);flex-shrink:0}
+.cal-b{flex:1;padding:14px}
+.cal-dr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.cal-lbl{font-size:9px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;margin-bottom:4px}
+.cal-h{font-size:15px;font-weight:800;color:var(--ink);line-height:1.2}
+.sec-hd{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:10px}
+.pr-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--br)}
+.pr-row{display:flex;align-items:center;padding:12px 14px;border-bottom:1px solid var(--br)}
+.pr-row:last-child{border-bottom:none}
+.pr-row.nxt{background:rgba(15,61,46,.04)}
+.pr-nm{font-size:13px;font-weight:600;color:var(--ink)}
+.pr-tm{font-size:11px;color:var(--mu)}
+.pr-tag{font-size:8px;font-weight:800;color:var(--a);letter-spacing:.8px;margin-left:5px}
+.pr-chk{width:26px;height:26px;border-radius:13px;border:1.5px solid var(--br);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800}
+.pr-chk.dn{background:var(--p);border-color:var(--p);color:#fff}
+.str{background:#fff;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:14px;border:1px solid var(--br)}
+/* ─ PRACTICE ─ */
+.pr-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}
+.pc{border-radius:18px;padding:18px 16px;border:1px solid var(--br);cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.pc-dot{width:28px;height:28px;border-radius:14px;background:rgba(15,61,46,.1);display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.pc-di{width:9px;height:9px;border-radius:5px;background:rgba(15,61,46,.5)}
+.pc-t{font-size:14px;font-weight:700;color:var(--ink);margin-bottom:3px;line-height:1.3}
+.pc-d{font-size:11px;color:var(--mu);line-height:1.5}
+.c-gn{background:rgba(15,61,46,.06)}.c-bl{background:rgba(59,130,246,.06)}.c-am{background:rgba(245,158,11,.06)}.c-gr{background:rgba(34,197,94,.06)}.c-pu{background:rgba(139,92,246,.06)}.c-or{background:rgba(234,88,12,.06)}.c-ro{background:rgba(225,29,72,.06)}.c-ye{background:rgba(202,138,4,.06)}.c-tl{background:rgba(20,184,166,.06)}
+/* ─ COMMUNITY ─ */
+.cm-hdr{flex-shrink:0;background:#fff;border-bottom:1px solid var(--br);padding:44px 16px 12px}
+.post{padding:14px 16px;border-bottom:1px solid var(--br);cursor:pointer}
+.post:last-child{border-bottom:none}
+.post-mt{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.post-av{width:30px;height:30px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:#fff;flex-shrink:0}
+.ptag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px}
+.tag-sp{background:rgba(139,92,246,.1);color:#7c3aed}.tag-qu{background:rgba(16,185,129,.1);color:#047857}.tag-ha{background:rgba(245,158,11,.12);color:#b45309}.tag-fi{background:rgba(59,130,246,.1);color:#1d4ed8}
+/* ─ PROFILE ─ */
+.pf-hero{flex-shrink:0;background:linear-gradient(135deg,#082819,#0F3D2E,#1A5C44);padding:44px 20px 20px;display:flex;flex-direction:column;align-items:center}
+.pf-av{width:72px;height:72px;border-radius:36px;border:2px solid rgba(200,169,81,.5);background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;color:#fff;position:relative;margin-bottom:10px}
+.pf-dot{position:absolute;bottom:1px;right:1px;width:14px;height:14px;border-radius:7px;background:#4ade80;border:2px solid #0F3D2E}
+.pf-stats{background:rgba(255,255,255,.1);border-radius:16px;display:flex;width:100%}
+.pf-st{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 0}
+.pf-sv{font-size:22px;font-weight:900;color:#fff}
+.pf-sv.g{color:var(--a)}
+.pf-sl{font-size:10px;color:rgba(255,255,255,.5)}
+.pf-sdiv{width:1px;background:rgba(255,255,255,.12);margin:8px 0}
+.pf-row{display:flex;align-items:center;padding:13px 16px;border-bottom:1px solid var(--br);gap:12px;cursor:pointer}
+.pf-row:last-child{border-bottom:none}
+.pf-ri{width:34px;height:34px;border-radius:10px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center}
+.pf-rd{width:8px;height:8px;border-radius:4px;background:rgba(15,61,46,.45)}
+.tog{width:42px;height:24px;border-radius:12px;background:var(--p);position:relative}
+.tog-th{position:absolute;top:2px;right:2px;width:20px;height:20px;border-radius:10px;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.2)}
+/* ─ JOURNAL ─ */
+.jn-hdr{flex-shrink:0;background:linear-gradient(135deg,#0F3D2E,#1A5C44);padding:44px 20px 16px}
+.jn-stats{background:rgba(255,255,255,.1);border-radius:14px;display:flex;margin-top:12px}
+.jn-st{flex:1;text-align:center;padding:10px 0}
+.jn-entry{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--br);display:flex;margin-bottom:10px}
+.jn-bar{width:4px;flex-shrink:0}
+.jn-bd{flex:1;padding:12px 14px}
+.jn-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.jn-md{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px}
+.jn-txt{font-size:12px;color:var(--ink);line-height:1.6;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+/* ─ SETTINGS ─ */
+.st-hdr{flex-shrink:0;background:#fff;border-bottom:1px solid var(--br);padding:44px 16px 12px}
+.st-slbl{font-size:10px;font-weight:700;color:var(--mu);letter-spacing:.12em;text-transform:uppercase;padding:0 4px;margin-bottom:6px;margin-top:14px;display:block}
+.st-card{background:#fff;border-radius:16px;overflow:hidden;border:1px solid var(--br)}
+.st-row{display:flex;align-items:center;padding:13px 14px;border-bottom:1px solid var(--br);gap:10px;cursor:pointer}
+.st-row:last-child{border-bottom:none}
+.st-ri{width:32px;height:32px;border-radius:9px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center}
+.st-rd{width:8px;height:8px;border-radius:4px;background:rgba(15,61,46,.45)}
+.dr .st-ri{background:rgba(192,57,43,.08)}.dr .st-rd{background:rgba(192,57,43,.5)}.dr .st-rl{color:#c0392b}
+.st-rl{font-size:13px;font-weight:600;color:var(--ink);flex:1}
+.st-rs{font-size:10px;color:var(--mu);margin-top:1px}
+/* ─ LOGIN ─ */
+.inp-lbl{font-size:11px;font-weight:600;color:var(--bd);letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px;display:block}
+.inp{width:100%;height:48px;border-radius:12px;border:1.5px solid var(--br);background:var(--iv);padding:0 14px;font-size:14px;color:var(--mu);display:flex;align-items:center}
+</style>
+</head>
+<body>
+<p class="ey">Sirat · Interactive Preview</p>
+<h1 class="pt">Full App Preview</h1>
+<p class="ps">10 screens · tap any to view</p>
+<div class="picker">
+  <button class="pick on" onclick="show('ob',this)">Onboarding</button>
+  <button class="pick"    onclick="show('auth',this)">Sign In</button>
+  <button class="pick"    onclick="show('login',this)">Email Login</button>
+  <button class="pick"    onclick="show('home',this)">Home</button>
+  <button class="pick"    onclick="show('quran',this)">Qur'an</button>
+  <button class="pick"    onclick="show('practice',this)">Practice</button>
+  <button class="pick"    onclick="show('community',this)">Community</button>
+  <button class="pick"    onclick="show('profile',this)">Profile</button>
+  <button class="pick"    onclick="show('journal',this)">Journal</button>
+  <button class="pick"    onclick="show('settings',this)">Settings</button>
+</div>
+<div class="phone">
+  <div class="notch"></div>
+
+  <!-- ONBOARDING -->
+  <div class="s" id="s-ob">
+    <div class="ob">
+      <div class="ob-geo"></div>
+      <p class="ob-z" style="font-size:17px;color:rgba(200,169,81,.62);letter-spacing:3px;margin-bottom:36px;text-align:center">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+      <div class="ob-z ob-ring"><div class="ob-in"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2L14.5 9.5H22L16 14L18.5 21.5L12 17L5.5 21.5L8 14L2 9.5H9.5L12 2Z" fill="#C8A951" opacity=".9"/></svg></div></div>
+      <div class="ob-z" style="font-size:40px;font-weight:800;color:#fff;letter-spacing:12px;margin:16px 0 24px">SIRAT</div>
+      <div class="ob-z" style="display:flex;align-items:center;gap:12px;width:180px;margin-bottom:26px"><div style="flex:1;height:1px;background:rgba(200,169,81,.28)"></div><div style="width:6px;height:6px;background:var(--a);transform:rotate(45deg);opacity:.65"></div><div style="flex:1;height:1px;background:rgba(200,169,81,.28)"></div></div>
+      <h2 class="ob-z" style="font-size:26px;font-weight:800;color:#fff;text-align:center;margin-bottom:10px;line-height:1.3">The Path<br>Begins Here</h2>
+      <p class="ob-z" style="font-size:14px;color:rgba(255,255,255,.55);text-align:center;line-height:1.7">Sirat helps you stay consistent, connected,<br>and grounded in your faith.</p>
+      <div style="position:absolute;bottom:36px;left:32px;right:32px;display:flex;justify-content:space-between;align-items:center;z-index:1">
+        <div style="display:flex;gap:5px;align-items:center"><div style="width:22px;height:5px;border-radius:3px;background:var(--a)"></div><div style="width:5px;height:5px;border-radius:3px;background:rgba(255,255,255,.2)"></div><div style="width:5px;height:5px;border-radius:3px;background:rgba(255,255,255,.2)"></div><div style="width:5px;height:5px;border-radius:3px;background:rgba(255,255,255,.2)"></div></div>
+        <div style="display:flex;align-items:center;gap:16px"><span style="color:rgba(255,255,255,.4);font-size:13px;font-weight:600">Skip</span><div style="display:flex;align-items:center;gap:6px;padding:10px 22px;border-radius:99px;background:var(--a);color:var(--p);font-weight:700;font-size:13px">Next →</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AUTH -->
+  <div class="s" id="s-auth" style="display:none">
+    <div style="width:100%;height:100%;display:flex;flex-direction:column;background:linear-gradient(160deg,#04100A,#0F3D2E 60%,#1A5C44);overflow:hidden">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center">
+        <div style="width:60px;height:60px;border-radius:30px;border:1px solid rgba(200,169,81,.4);display:flex;align-items:center;justify-content:center;margin-bottom:12px"><div style="width:46px;height:46px;border-radius:23px;border:1px solid rgba(200,169,81,.6);background:rgba(200,169,81,.1);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2L14.5 9.5H22L16 14L18.5 21.5L12 17L5.5 21.5L8 14L2 9.5H9.5L12 2Z" fill="#C8A951" opacity=".9"/></svg></div></div>
+        <div style="font-size:30px;font-weight:800;color:#fff;letter-spacing:8px">SIRAT</div>
+        <div style="font-size:10px;color:rgba(255,255,255,.35);letter-spacing:3px;font-weight:500;margin-top:4px">THE STRAIGHT PATH</div>
+      </div>
+      <div style="background:#fff;border-radius:28px 28px 0 0;padding:12px 24px 32px">
+        <div style="width:36px;height:4px;border-radius:2px;background:var(--pr);margin:0 auto 20px"></div>
+        <div style="font-size:22px;font-weight:800;color:var(--ink);margin-bottom:4px">Continue Your Journey</div>
+        <div style="font-size:13px;color:var(--mu);margin-bottom:20px;line-height:1.55">Sign in to save your progress and personalize your experience.</div>
+        <button style="width:100%;height:52px;border-radius:16px;background:#000;color:#fff;font-size:14px;font-weight:600;border:none;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;cursor:pointer">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 22C7.78 22.05 6.8 20.68 5.96 19.47C4.25 17 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C17.39 10.1 17.41 12.63 20.09 16.67C19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+          Sign in with Apple
+        </button>
+        <button style="width:100%;height:52px;border-radius:16px;background:#fff;color:var(--ink);font-size:14px;font-weight:600;border:1.5px solid var(--br);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;cursor:pointer">
+          <svg width="17" height="17" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+          Sign in with Google
+        </button>
+        <div style="display:flex;align-items:center;gap:12px;margin:12px 0"><div style="flex:1;height:1px;background:var(--br)"></div><span style="font-size:12px;color:var(--su);font-weight:600">or</span><div style="flex:1;height:1px;background:var(--br)"></div></div>
+        <button style="width:100%;height:52px;border-radius:16px;background:transparent;color:var(--p);font-size:14px;font-weight:600;border:1.5px solid var(--p);cursor:pointer;margin-bottom:12px">Continue with Email</button>
+        <p style="text-align:center;font-size:12px;color:var(--mu);margin-bottom:8px">New to Sirat? <span style="color:var(--p);font-weight:700">Create account</span></p>
+        <p style="text-align:center;font-size:10px;color:var(--su)">By continuing you agree to our <span style="color:var(--ad);font-weight:600">Terms</span> and <span style="color:var(--ad);font-weight:600">Privacy Policy</span>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EMAIL LOGIN -->
+  <div class="s" id="s-login" style="display:none">
+    <div style="flex-shrink:0;padding-top:44px;background:linear-gradient(135deg,#082819,#0F3D2E)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px">
+        <div style="width:40px;height:40px;display:flex;align-items:center;justify-content:center"><span style="color:white;font-size:22px">‹</span></div>
+        <div style="text-align:center"><p style="color:#fff;font-weight:700;font-size:16px">Sign In</p><p style="color:rgba(255,255,255,.5);font-size:12px">Welcome back</p></div>
+        <div style="width:40px"></div>
+      </div>
+      <div style="height:20px"></div>
+    </div>
+    <div class="sc" style="padding:24px 24px 32px">
+      <div class="card" style="padding:24px;margin-bottom:20px;border-radius:20px">
+        <label class="inp-lbl">EMAIL</label>
+        <div class="inp" style="margin-bottom:16px">your@email.com</div>
+        <label class="inp-lbl">PASSWORD</label>
+        <div class="inp" style="margin-bottom:6px;position:relative;display:flex;justify-content:space-between;align-items:center"><span>••••••••</span><span style="font-size:16px">👁️</span></div>
+        <div style="text-align:right;margin-bottom:20px"><span style="color:var(--p);font-size:12px;font-weight:600">Forgot password?</span></div>
+        <button style="width:100%;height:52px;border-radius:16px;background:var(--p);color:#fff;font-weight:700;font-size:15px;border:none;cursor:pointer;box-shadow:0 6px 20px rgba(15,61,46,.28)">Sign In</button>
+      </div>
+      <p style="text-align:center;font-size:13px;color:var(--mu)">New to Sirat? <span style="color:var(--p);font-weight:700">Create account</span></p>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="s" id="s-home" style="display:none">
+    <div class="h-hdr">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px">
+        <div><div style="font-size:13px;color:rgba(255,255,255,.6);margin-bottom:2px">Good morning,</div><div style="font-size:24px;font-weight:800;color:#fff">Hassan</div></div>
+        <div style="width:34px;height:34px;border-radius:17px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      </div>
+      <div style="background:rgba(255,255,255,.12);border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+        <div style="flex:1"><div style="font-size:11px;color:rgba(255,255,255,.65);margin-bottom:6px">3 of 5 prayers today</div><div style="height:5px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden"><div style="height:100%;background:var(--a);border-radius:99px;width:60%"></div></div></div>
+        <div style="width:40px;height:40px;border-radius:20px;background:rgba(200,169,81,.2);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:var(--a)">3</div>
+      </div>
+    </div>
+    <div class="sc">
+      <div class="content">
+        <div class="verse"><div class="v-ol">Verse of the Day</div><div class="v-ar">إِنَّ مَعَ الْعُسْرِ يُسْرًا</div><div class="v-tr">"Indeed, with hardship comes ease."</div><div class="v-rf">Quran 94:6</div></div>
+        <div class="cal"><div class="cal-bar"></div><div class="cal-b">
+          <div class="cal-dr">
+            <div><div class="cal-lbl" style="color:var(--a)">Islamic Date</div><div class="cal-h">13 Shawwal</div><div style="font-size:11px;color:var(--mu)">1446 AH</div></div>
+            <div><div class="cal-lbl" style="color:var(--mu);text-align:right">Today</div><div style="font-size:13px;font-weight:600;color:var(--ink);text-align:right">April 11</div><div style="font-size:11px;color:var(--mu);text-align:right">Friday, 2026</div></div>
+          </div>
+          <div style="height:1px;background:var(--br);margin-bottom:10px"></div>
+          <div class="cal-lbl" style="color:var(--mu);margin-bottom:8px">Upcoming Events</div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px"><div style="width:6px;height:6px;border-radius:3px;background:#C8A951;flex-shrink:0"></div><div style="font-size:12px;font-weight:600;color:var(--ink);flex:1">Laylat al-Qadr</div><div style="font-size:10px;color:var(--mu)">27 Ramadan</div><div style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--ow);color:var(--mu)">12d</div></div>
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px"><div style="width:6px;height:6px;border-radius:3px;background:#2E7D5A;flex-shrink:0"></div><div style="font-size:12px;font-weight:600;color:var(--ink);flex:1">Eid al-Fitr</div><div style="font-size:10px;color:var(--mu)">1 Shawwal</div><div style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--ow);color:var(--mu)">15d</div></div>
+          <div style="display:flex;align-items:center;gap:8px"><div style="width:6px;height:6px;border-radius:3px;background:#0F3D2E;flex-shrink:0"></div><div style="font-size:12px;font-weight:600;color:var(--ink);flex:1">Eid al-Adha</div><div style="font-size:10px;color:var(--mu)">10 Dhul Hijja</div><div style="font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;background:var(--ow);color:var(--mu)">76d</div></div>
+        </div></div>
+        <div>
+          <div class="sec-hd">Today's Prayers</div>
+          <div class="pr-card">
+            <div class="pr-row"><div style="flex:1"><div class="pr-nm">Fajr</div><div class="pr-tm">5:42 AM</div></div><div class="pr-chk dn">✓</div></div>
+            <div class="pr-row"><div style="flex:1"><div class="pr-nm">Dhuhr</div><div class="pr-tm">12:30 PM</div></div><div class="pr-chk dn">✓</div></div>
+            <div class="pr-row nxt"><div style="width:6px;height:6px;border-radius:3px;background:var(--a);margin-right:8px;flex-shrink:0"></div><div style="flex:1"><div class="pr-nm">Asr <span class="pr-tag">NEXT</span></div><div class="pr-tm">3:45 PM</div></div><div class="pr-chk dn">✓</div></div>
+            <div class="pr-row"><div style="flex:1"><div class="pr-nm">Maghrib</div><div class="pr-tm">6:18 PM</div></div><div class="pr-chk"></div></div>
+            <div class="pr-row"><div style="flex:1"><div class="pr-nm">Isha</div><div class="pr-tm">7:52 PM</div></div><div class="pr-chk"></div></div>
+          </div>
+        </div>
+        <div class="str">
+          <div style="width:40px;height:40px;border-radius:20px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:20px">🔥</div>
+          <div style="flex:1"><div style="font-size:15px;font-weight:700;color:var(--ink)">14-day streak</div><div style="font-size:11px;color:var(--mu)">Keep it up — pray all 5 today</div></div>
+          <div><div style="font-size:28px;font-weight:900;color:var(--p);text-align:right;line-height:1">14</div><div style="font-size:10px;color:var(--mu);text-align:right">days</div></div>
+        </div>
+        <div style="height:8px"></div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12V21H15V15H9V21H3V12Z" fill="#0F3D2E" stroke="#0F3D2E" stroke-width="1.75" stroke-linejoin="round"/></svg><span class="nlbl a">Home</span><div class="ndot"></div></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M4 4C4 3.45 4.45 3 5 3H16L20 7V20C20 20.55 19.55 21 19 21H5C4.45 21 4 20.55 4 20V4Z" stroke="#C4BDB0" stroke-width="1.75" stroke-linejoin="round"/><path d="M15 3V7H20M8 12H16M8 16H13" stroke="#C4BDB0" stroke-width="1.5" stroke-linecap="round"/></svg><span class="nlbl">Qur'an</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#C4BDB0" stroke-width="1.75"/><path d="M9 12L11 14L15 10" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nlbl">Practice</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="#C4BDB0" stroke-width="1.75"/><path d="M3 19C3 16.24 5.69 14 9 14C12.31 14 15 16.24 15 19" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Community</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#C4BDB0" stroke-width="1.75"/><path d="M4 20C4 17.24 7.58 15 12 15C16.42 15 20 17.24 20 20" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Profile</span></div>
+    </div>
+  </div>
+
+  <!-- QURAN -->
+  <div class="s" id="s-quran" style="display:none">
+    <div style="flex-shrink:0;background:linear-gradient(135deg,#0F3D2E,#1A5C44);padding:44px 20px 0">
+      <div style="padding-bottom:4px"><div class="gt">Qur'an</div><div class="gs">114 Surahs · 30 Juz</div></div>
+      <div style="background:rgba(255,255,255,.15);border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:8px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="rgba(255,255,255,.5)" stroke-width="1.75"/><path d="M21 21L16.65 16.65" stroke="rgba(255,255,255,.5)" stroke-width="1.75" stroke-linecap="round"/></svg><span style="font-size:13px;color:rgba(255,255,255,.4)">Search surah…</span></div>
+      <div style="display:flex;gap:2px;margin-top:12px"><button style="padding:8px 18px;font-size:13px;font-weight:600;background:var(--iv);color:var(--p);border:none;cursor:pointer;border-radius:10px 10px 0 0">Surah</button><button style="padding:8px 18px;font-size:13px;font-weight:600;color:rgba(255,255,255,.5);background:transparent;border:none;cursor:pointer;border-radius:10px 10px 0 0">Juz</button></div>
+    </div>
+    <div class="sc" style="background:#fff">
+      <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--br)"><div style="width:34px;height:34px;border-radius:10px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--p);margin-right:12px;flex-shrink:0">1</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--ink)">Al-Fatihah</div><div style="font-size:11px;color:var(--mu)">The Opening · 7 verses · Meccan</div></div><div style="font-size:16px;color:var(--p);font-weight:500" dir="rtl">الفاتحة</div></div>
+      <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--br)"><div style="width:34px;height:34px;border-radius:10px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--p);margin-right:12px;flex-shrink:0">2</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--ink)">Al-Baqarah</div><div style="font-size:11px;color:var(--mu)">The Cow · 286 verses · Medinan</div></div><div style="font-size:16px;color:var(--p);font-weight:500" dir="rtl">البقرة</div></div>
+      <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--br)"><div style="width:34px;height:34px;border-radius:10px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--p);margin-right:12px;flex-shrink:0">3</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--ink)">Ali 'Imran</div><div style="font-size:11px;color:var(--mu)">Family of Imran · 200 verses · Medinan</div></div><div style="font-size:16px;color:var(--p);font-weight:500" dir="rtl">آل عمران</div></div>
+      <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--br)"><div style="width:34px;height:34px;border-radius:10px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--p);margin-right:12px;flex-shrink:0">18</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--ink)">Al-Kahf</div><div style="font-size:11px;color:var(--mu)">The Cave · 110 verses · Meccan</div></div><div style="font-size:16px;color:var(--p);font-weight:500" dir="rtl">الكهف</div></div>
+      <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--br)"><div style="width:34px;height:34px;border-radius:10px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--p);margin-right:12px;flex-shrink:0">36</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--ink)">Ya-Sin</div><div style="font-size:11px;color:var(--mu)">Ya Sin · 83 verses · Meccan</div></div><div style="font-size:16px;color:var(--p);font-weight:500" dir="rtl">يس</div></div>
+      <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--br)"><div style="width:34px;height:34px;border-radius:10px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--p);margin-right:12px;flex-shrink:0">55</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--ink)">Ar-Rahman</div><div style="font-size:11px;color:var(--mu)">The Beneficent · 78 verses · Medinan</div></div><div style="font-size:16px;color:var(--p);font-weight:500" dir="rtl">الرحمن</div></div>
+      <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--br)"><div style="width:34px;height:34px;border-radius:10px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--p);margin-right:12px;flex-shrink:0">67</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--ink)">Al-Mulk</div><div style="font-size:11px;color:var(--mu)">The Sovereignty · 30 verses · Meccan</div></div><div style="font-size:16px;color:var(--p);font-weight:500" dir="rtl">الملك</div></div>
+      <div style="display:flex;align-items:center;padding:12px 16px;border-bottom:1px solid var(--br)"><div style="width:34px;height:34px;border-radius:10px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--p);margin-right:12px;flex-shrink:0">112</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--ink)">Al-Ikhlas</div><div style="font-size:11px;color:var(--mu)">The Sincerity · 4 verses · Meccan</div></div><div style="font-size:16px;color:var(--p);font-weight:500" dir="rtl">الإخلاص</div></div>
+      <div style="display:flex;align-items:center;padding:12px 16px"><div style="width:34px;height:34px;border-radius:10px;background:rgba(15,61,46,.08);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--p);margin-right:12px;flex-shrink:0">114</div><div style="flex:1"><div style="font-size:14px;font-weight:600;color:var(--ink)">An-Nas</div><div style="font-size:11px;color:var(--mu)">The Mankind · 6 verses · Meccan</div></div><div style="font-size:16px;color:var(--p);font-weight:500" dir="rtl">الناس</div></div>
+    </div>
+    <div class="bnav">
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12V21H15V15H9V21H3V12Z" stroke="#C4BDB0" stroke-width="1.75" stroke-linejoin="round"/></svg><span class="nlbl">Home</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M4 4C4 3.45 4.45 3 5 3H16L20 7V20C20 20.55 19.55 21 19 21H5C4.45 21 4 20.55 4 20V4Z" fill="#0F3D2E" stroke="#0F3D2E" stroke-width="1.75" stroke-linejoin="round"/><path d="M15 3V7H20M8 12H16M8 16H13" stroke="#FAF7F2" stroke-width="1.5" stroke-linecap="round"/></svg><span class="nlbl a">Qur'an</span><div class="ndot"></div></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#C4BDB0" stroke-width="1.75"/><path d="M9 12L11 14L15 10" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Practice</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="#C4BDB0" stroke-width="1.75"/><path d="M3 19C3 16.24 5.69 14 9 14C12.31 14 15 16.24 15 19" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Community</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#C4BDB0" stroke-width="1.75"/><path d="M4 20C4 17.24 7.58 15 12 15C16.42 15 20 17.24 20 20" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Profile</span></div>
+    </div>
+  </div>
+
+  <!-- PRACTICE -->
+  <div class="s" id="s-practice" style="display:none">
+    <div class="ghdr"><div class="gt">Practice</div><div class="gs">Learn and build good habits</div></div>
+    <div class="sc">
+      <div class="pr-grid">
+        <div class="pc c-gn"><div class="pc-dot"><div class="pc-di"></div></div><div class="pc-t">Prayer Guide</div><div class="pc-d">Learn all 5 prayers step-by-step</div></div>
+        <div class="pc c-bl"><div class="pc-dot"><div class="pc-di"></div></div><div class="pc-t">Wudu Guide</div><div class="pc-d">Purification before prayer</div></div>
+        <div class="pc c-am"><div class="pc-dot"><div class="pc-di"></div></div><div class="pc-t">Dhikr Counter</div><div class="pc-d">Digital tasbih & remembrance</div></div>
+        <div class="pc c-gr"><div class="pc-dot"><div class="pc-di"></div></div><div class="pc-t">Daily Duas</div><div class="pc-d">Morning, evening & situational</div></div>
+        <div class="pc c-pu"><div class="pc-dot"><div class="pc-di"></div></div><div class="pc-t">99 Names of Allah</div><div class="pc-d">Learn and reflect on Asma ul Husna</div></div>
+        <div class="pc c-or"><div class="pc-dot"><div class="pc-di"></div></div><div class="pc-t">Daily Routine</div><div class="pc-d">Track your daily acts of worship</div></div>
+        <div class="pc c-ro"><div class="pc-dot"><div class="pc-di"></div></div><div class="pc-t">Hadith Collection</div><div class="pc-d">Read and reflect on authentic hadith</div></div>
+        <div class="pc c-ye"><div class="pc-dot"><div class="pc-di"></div></div><div class="pc-t">Prophets & Imams</div><div class="pc-d">Stories and lessons from their lives</div></div>
+        <div class="pc c-tl" style="grid-column:1/-1;flex-direction:row;align-items:center;gap:14px;padding:16px 18px">
+          <div class="pc-dot" style="margin-bottom:0;flex-shrink:0"><div class="pc-di"></div></div>
+          <div style="flex:1"><div class="pc-t" style="margin-bottom:2px">Ask a Scholar</div><div class="pc-d">Get answers from trusted scholars</div></div>
+          <div style="font-size:11px;font-weight:700;color:var(--p);white-space:nowrap">imam-us.org ›</div>
+        </div>
+      </div>
+    </div>
+    <div class="bnav">
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12V21H15V15H9V21H3V12Z" stroke="#C4BDB0" stroke-width="1.75" stroke-linejoin="round"/></svg><span class="nlbl">Home</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M4 4C4 3.45 4.45 3 5 3H16L20 7V20C20 20.55 19.55 21 19 21H5C4.45 21 4 20.55 4 20V4Z" stroke="#C4BDB0" stroke-width="1.75"/></svg><span class="nlbl">Qur'an</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" fill="#0F3D2E" stroke="#0F3D2E" stroke-width="1.75"/><path d="M9 12L11 14L15 10" stroke="#FAF7F2" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="nlbl a">Practice</span><div class="ndot"></div></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="#C4BDB0" stroke-width="1.75"/><path d="M3 19C3 16.24 5.69 14 9 14C12.31 14 15 16.24 15 19" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Community</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#C4BDB0" stroke-width="1.75"/><path d="M4 20C4 17.24 7.58 15 12 15C16.42 15 20 17.24 20 20" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Profile</span></div>
+    </div>
+  </div>
+
+  <!-- COMMUNITY -->
+  <div class="s" id="s-community" style="display:none">
+    <div style="flex-shrink:0;background:#fff;border-bottom:1px solid var(--br);padding:44px 16px 12px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+        <div style="font-size:24px;font-weight:800;color:var(--p)">Community</div>
+        <div style="width:36px;height:36px;border-radius:10px;background:var(--iv);border:1px solid var(--br);display:flex;align-items:center;justify-content:center;cursor:pointer">✏️</div>
+      </div>
+      <div style="background:var(--iv);border:1px solid var(--br);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:7px;margin-bottom:10px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="8" stroke="#7A7268" stroke-width="1.75"/><path d="M21 21L16.65 16.65" stroke="#7A7268" stroke-width="1.75" stroke-linecap="round"/></svg><span style="font-size:13px;color:var(--mu)">🔍 Search discussions…</span></div>
+      <div style="display:flex;gap:6px;overflow-x:auto">
+        <div style="padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:var(--p);color:#fff;border:1px solid var(--p);white-space:nowrap">All</div>
+        <div style="padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:#fff;color:var(--mu);border:1px solid var(--br);white-space:nowrap">Quran</div>
+        <div style="padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:#fff;color:var(--mu);border:1px solid var(--br);white-space:nowrap">Hadith</div>
+        <div style="padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:#fff;color:var(--mu);border:1px solid var(--br);white-space:nowrap">Fiqh</div>
+        <div style="padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:#fff;color:var(--mu);border:1px solid var(--br);white-space:nowrap">Spirituality</div>
+      </div>
+    </div>
+    <div class="sc" style="background:#fff">
+      <div class="post"><div class="post-mt"><div class="post-av" style="background:#0F3D2E">AR</div><div style="font-size:12px;font-weight:600;color:var(--ink);flex:1">Ahmad R.</div><div style="font-size:10px;color:var(--su)">2h ago</div><span class="ptag tag-sp">spirituality</span></div><div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px;line-height:1.35">What daily habit has most improved your connection to Allah?</div><div style="font-size:12px;color:var(--mu);line-height:1.55;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">For me, reading a few ayahs every morning before checking my phone changed my entire day.</div><div style="display:flex;gap:14px"><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mu);font-weight:600">❤️ 142</div><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mu);font-weight:600">💬 38</div></div></div>
+      <div class="post"><div style="display:flex;align-items:center;gap:5px;margin-bottom:6px"><span style="color:var(--a);font-size:10px">📌</span><span style="font-size:9px;font-weight:700;color:var(--a);letter-spacing:.1em">PINNED</span></div><div class="post-mt"><div class="post-av" style="background:#1A5C44">UK</div><div style="font-size:12px;font-weight:600;color:var(--ink);flex:1">Umar K.</div><div style="font-size:10px;color:var(--su)">6h ago</div><span class="ptag tag-ha">hadith</span></div><div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px;line-height:1.35">The Prophet ﷺ said: Make things easy, not difficult</div><div style="font-size:12px;color:var(--mu);line-height:1.55;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">This hadith is such a beautiful reminder for those involved in dawah.</div><div style="display:flex;gap:14px"><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mu);font-weight:600">❤️ 203</div><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mu);font-weight:600">💬 15</div></div></div>
+      <div class="post"><div class="post-mt"><div class="post-av" style="background:#2E5C8A">MH</div><div style="font-size:12px;font-weight:600;color:var(--ink);flex:1">Maryam H.</div><div style="font-size:10px;color:var(--su)">4h ago</div><span class="ptag tag-qu">quran</span></div><div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px;line-height:1.35">Tafsir recommendation for beginners?</div><div style="font-size:12px;color:var(--mu);line-height:1.55;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">I want to study the Quran more deeply but don't know which tafsir to start with.</div><div style="display:flex;gap:14px"><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mu);font-weight:600">❤️ 87</div><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mu);font-weight:600">💬 24</div></div></div>
+      <div class="post" style="border-bottom:none"><div class="post-mt"><div class="post-av" style="background:#5C3D8F">FN</div><div style="font-size:12px;font-weight:600;color:var(--ink);flex:1">Fatimah N.</div><div style="font-size:10px;color:var(--su)">8h ago</div><span class="ptag tag-fi">fiqh</span></div><div style="font-size:14px;font-weight:700;color:var(--ink);margin-bottom:5px;line-height:1.35">Is it permissible to pray Tarawih at home?</div><div style="font-size:12px;color:var(--mu);line-height:1.55;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">My local masjid has very late Tarawih prayers which is difficult due to work.</div><div style="display:flex;gap:14px"><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mu);font-weight:600">❤️ 56</div><div style="display:flex;align-items:center;gap:4px;font-size:11px;color:var(--mu);font-weight:600">💬 42</div></div></div>
+    </div>
+    <div class="bnav">
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12V21H15V15H9V21H3V12Z" stroke="#C4BDB0" stroke-width="1.75" stroke-linejoin="round"/></svg><span class="nlbl">Home</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M4 4C4 3.45 4.45 3 5 3H16L20 7V20C20 20.55 19.55 21 19 21H5C4.45 21 4 20.55 4 20V4Z" stroke="#C4BDB0" stroke-width="1.75"/></svg><span class="nlbl">Qur'an</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#C4BDB0" stroke-width="1.75"/><path d="M9 12L11 14L15 10" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Practice</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" fill="#0F3D2E" stroke="#0F3D2E" stroke-width="1.75"/><circle cx="17" cy="8" r="2.5" fill="#0F3D2E" stroke="#0F3D2E" stroke-width="1.5"/><path d="M3 19C3 16.24 5.69 14 9 14C12.31 14 15 16.24 15 19" stroke="#0F3D2E" stroke-width="1.75" stroke-linecap="round"/><path d="M17 14C18.66 14 21 15.34 21 17.5" stroke="#0F3D2E" stroke-width="1.5" stroke-linecap="round"/></svg><span class="nlbl a">Community</span><div class="ndot"></div></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#C4BDB0" stroke-width="1.75"/><path d="M4 20C4 17.24 7.58 15 12 15C16.42 15 20 17.24 20 20" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Profile</span></div>
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="s" id="s-profile" style="display:none">
+    <div class="pf-hero">
+      <div style="align-self:flex-end;margin-bottom:8px;width:34px;height:34px;border-radius:17px;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:16px">⚙️</div>
+      <div class="pf-av">HA<div class="pf-dot"></div></div>
+      <div style="font-size:20px;font-weight:800;color:#fff;margin-bottom:2px">Hassan</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.5);margin-bottom:12px">hassan@email.com</div>
+      <div style="display:flex;gap:7px;margin-bottom:14px">
+        <div style="background:rgba(255,255,255,.12);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:99px">Muslim</div>
+        <div style="background:rgba(255,255,255,.12);color:#fff;font-size:11px;font-weight:600;padding:4px 12px;border-radius:99px">English</div>
+      </div>
+      <div class="pf-stats">
+        <div class="pf-st"><div class="pf-sv g">14</div><div class="pf-sl">Day Streak</div></div>
+        <div class="pf-sdiv"></div>
+        <div class="pf-st"><div class="pf-sv">3</div><div class="pf-sl">Prayers Today</div></div>
+        <div class="pf-sdiv"></div>
+        <div class="pf-st"><div class="pf-sv">7</div><div class="pf-sl">Journal</div></div>
+      </div>
+    </div>
+    <div class="sc" style="padding:14px;display:flex;flex-direction:column;gap:12px">
+      <div class="card" style="overflow:hidden">
+        <div class="pf-row"><div class="pf-ri"><div class="pf-rd"></div></div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--ink)">My Journal</div><div style="font-size:11px;color:var(--mu)">Private reflections</div></div><span style="color:#A09890;font-size:18px">›</span></div>
+        <div class="pf-row"><div class="pf-ri"><div class="pf-rd"></div></div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--ink)">Ask a Scholar</div><div style="font-size:11px;color:var(--mu)">Get answers from trusted scholars</div></div><span style="color:#A09890;font-size:18px">›</span></div>
+        <div class="pf-row"><div class="pf-ri"><div class="pf-rd"></div></div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--ink)">My Progress</div><div style="font-size:11px;color:var(--mu)">Streaks and achievements</div></div><span style="color:#A09890;font-size:18px">›</span></div>
+        <div class="pf-row" style="border-bottom:none"><div class="pf-ri"><div class="pf-rd"></div></div><div style="flex:1"><div style="font-size:13px;font-weight:600;color:var(--ink)">Prayer Notifications</div><div style="font-size:11px;color:var(--mu)">Enabled</div></div><div class="tog"><div class="tog-th"></div></div></div>
+      </div>
+      <button style="width:100%;height:48px;border-radius:16px;border:1.5px solid rgba(192,57,43,.25);background:rgba(192,57,43,.05);color:#c0392b;font-size:13px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:7px;cursor:pointer">🚪 Sign Out</button>
+      <p style="text-align:center;font-size:11px;color:var(--su)">Sirat · Version 1.0.0</p>
+    </div>
+    <div class="bnav">
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M3 12L12 3L21 12V21H15V15H9V21H3V12Z" stroke="#C4BDB0" stroke-width="1.75" stroke-linejoin="round"/></svg><span class="nlbl">Home</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><path d="M4 4C4 3.45 4.45 3 5 3H16L20 7V20C20 20.55 19.55 21 19 21H5C4.45 21 4 20.55 4 20V4Z" stroke="#C4BDB0" stroke-width="1.75"/></svg><span class="nlbl">Qur'an</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="#C4BDB0" stroke-width="1.75"/><path d="M9 12L11 14L15 10" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Practice</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="9" cy="8" r="3" stroke="#C4BDB0" stroke-width="1.75"/><path d="M3 19C3 16.24 5.69 14 9 14C12.31 14 15 16.24 15 19" stroke="#C4BDB0" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl">Community</span></div>
+      <div class="ni"><svg width="21" height="21" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" fill="#0F3D2E" stroke="#0F3D2E" stroke-width="1.75"/><path d="M4 20C4 17.24 7.58 15 12 15C16.42 15 20 17.24 20 20" stroke="#0F3D2E" stroke-width="1.75" stroke-linecap="round"/></svg><span class="nlbl a">Profile</span><div class="ndot"></div></div>
+    </div>
+  </div>
+
+  <!-- JOURNAL -->
+  <div class="s" id="s-journal" style="display:none">
+    <div class="jn-hdr">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><div class="gt">Journal</div><div class="gs">Private reflections</div></div>
+        <div style="width:34px;height:34px;border-radius:17px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:16px;color:#fff;font-weight:300">✕</div>
+      </div>
+      <div class="jn-stats">
+        <div class="jn-st"><div style="font-size:20px;font-weight:900;color:#fff">7</div><div style="font-size:10px;color:rgba(255,255,255,.5)">Entries</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.12);margin:8px 0"></div>
+        <div class="jn-st"><div style="font-size:20px;font-weight:900;color:#fff">5</div><div style="font-size:10px;color:rgba(255,255,255,.5)">Days active</div></div>
+        <div style="width:1px;background:rgba(255,255,255,.12);margin:8px 0"></div>
+        <div class="jn-st"><div style="font-size:20px;font-weight:900;color:#fff">3</div><div style="font-size:10px;color:rgba(255,255,255,.5)">Day run</div></div>
+      </div>
+    </div>
+    <div class="sc" style="padding:14px">
+      <button style="width:100%;height:48px;border-radius:14px;border:1.5px dashed rgba(15,61,46,.35);background:transparent;color:var(--p);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:12px">+ New Entry</button>
+      <div style="display:flex;gap:6px;overflow-x:auto;margin-bottom:12px">
+        <div style="padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:var(--p);color:#fff;border:1px solid var(--p);white-space:nowrap">All</div>
+        <div style="padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:#fff;color:var(--mu);border:1px solid var(--br);white-space:nowrap">Grateful</div>
+        <div style="padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:#fff;color:var(--mu);border:1px solid var(--br);white-space:nowrap">Reflective</div>
+        <div style="padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:#fff;color:var(--mu);border:1px solid var(--br);white-space:nowrap">Hopeful</div>
+        <div style="padding:5px 12px;border-radius:99px;font-size:11px;font-weight:600;background:#fff;color:var(--mu);border:1px solid var(--br);white-space:nowrap">Struggling</div>
+      </div>
+      <div class="jn-entry"><div class="jn-bar" style="background:#4ade80"></div><div class="jn-bd"><div class="jn-meta"><span style="font-size:10px;font-weight:600;color:var(--mu)">Today, 6:12 AM</span><span class="jn-md" style="background:rgba(74,222,128,.12);color:#16a34a">Grateful</span></div><div class="jn-txt">Made du'a after Fajr today and felt a real connection. Something about the stillness of that time is so special.</div></div></div>
+      <div class="jn-entry"><div class="jn-bar" style="background:#60a5fa"></div><div class="jn-bd"><div class="jn-meta"><span style="font-size:10px;font-weight:600;color:var(--mu)">Yesterday, 9:45 PM</span><span class="jn-md" style="background:rgba(96,165,250,.12);color:#1d4ed8">Struggling</span></div><div class="jn-txt">Struggling to maintain consistency with Isha. I need to find a way to stay awake after dinner.</div></div></div>
+      <div class="jn-entry" style="margin-bottom:0"><div class="jn-bar" style="background:#a78bfa"></div><div class="jn-bd"><div class="jn-meta"><span style="font-size:10px;font-weight:600;color:var(--mu)">Apr 8, 3:30 PM</span><span class="jn-md" style="background:rgba(167,139,250,.12);color:#7c3aed">Reflective</span></div><div class="jn-txt">Read Surah Al-Kahf today — the story of the People of the Cave really made me think about steadfastness in faith.</div></div></div>
+    </div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="s" id="s-settings" style="display:none">
+    <div class="st-hdr">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:38px;height:38px;display:flex;align-items:center;justify-content:center"><span style="color:var(--ink);font-size:22px">‹</span></div>
+        <div style="font-size:26px;font-weight:800;color:var(--ink)">Settings</div>
+      </div>
+    </div>
+    <div class="sc" style="padding:0 14px 32px">
+      <span class="st-slbl">Account</span>
+      <div class="st-card">
+        <div class="st-row"><div class="st-ri"><div class="st-rd"></div></div><div style="flex:1"><div class="st-rl">Hassan</div><div class="st-rs">hassan@email.com</div></div><span style="color:#A09890;font-size:15px">›</span></div>
+        <div class="st-row" style="border-bottom:none"><div class="st-ri"><div class="st-rd"></div></div><div style="flex:1"><div class="st-rl">Language</div><div class="st-rs">English</div></div><span style="color:#A09890;font-size:15px">›</span></div>
+      </div>
+      <span class="st-slbl">Notifications</span>
+      <div class="st-card">
+        <div class="st-row" style="border-bottom:none"><div class="st-ri"><div class="st-rd"></div></div><div style="flex:1"><div class="st-rl">Prayer Reminders</div><div class="st-rs">On</div></div><div class="tog"><div class="tog-th"></div></div></div>
+      </div>
+      <span class="st-slbl">Legal</span>
+      <div class="st-card">
+        <div class="st-row"><div class="st-ri"><div class="st-rd"></div></div><div class="st-rl">Privacy Policy</div><span style="color:#A09890;font-size:15px">›</span></div>
+        <div class="st-row"><div class="st-ri"><div class="st-rd"></div></div><div class="st-rl">Terms of Service</div><span style="color:#A09890;font-size:15px">›</span></div>
+        <div class="st-row" style="border-bottom:none"><div class="st-ri"><div class="st-rd"></div></div><div style="flex:1"><div class="st-rl">Contact Support</div><div class="st-rs">support@sirat.app</div></div><span style="color:#A09890;font-size:15px">›</span></div>
+      </div>
+      <span class="st-slbl">Account Actions</span>
+      <div class="st-card">
+        <div class="st-row dr"><div class="st-ri"><div class="st-rd"></div></div><div class="st-rl">Sign Out</div><span style="color:#c0392b;font-size:15px">›</span></div>
+        <div class="st-row dr" style="border-bottom:none"><div class="st-ri"><div class="st-rd"></div></div><div style="flex:1"><div class="st-rl">Delete Account</div><div style="font-size:10px;color:#c0392b;margin-top:1px">Permanently remove all your data</div></div><span style="color:#c0392b;font-size:15px">›</span></div>
+      </div>
+      <p style="text-align:center;font-size:11px;color:var(--su);margin-top:16px">Sirat · Version 1.0.0</p>
+    </div>
+  </div>
+
+</div>
+<script>
+function show(id,btn){
+  document.querySelectorAll('.s').forEach(s=>s.style.display='none');
+  document.querySelectorAll('.pick').forEach(b=>b.classList.remove('on'));
+  const el=document.getElementById('s-'+id);
+  if(el)el.style.display='flex';
+  btn.classList.add('on');
+}
+</script>
+</body>
+</html>

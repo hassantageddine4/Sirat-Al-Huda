@@ -1,0 +1,35 @@
+
+export async function getVerses(chapterId, { translationId = "en.sahih", signal } = {}) {
+  if (!Number.isInteger(chapterId) || chapterId < 1 || chapterId > 114) {
+    return { data: [], error: "Invalid chapter id." };
+  }
+  const edition = String(translationId);
+  const key = cacheKey("verses", chapterId, edition);
+  const cached = readCache(key, TTL.verses);
+  if (cached) return { data: cached, error: null };
+
+  try {
+    const url = "https://api.alquran.cloud/v1/surah/" + chapterId + "/editions/quran-uthmani," + edition;
+    const res = await fetch(url, { signal });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const json = await res.json();
+    const arabicSurah = json.data && json.data[0];
+    const transSurah = json.data && json.data[1];
+    if (!arabicSurah || !arabicSurah.ayahs) throw new Error("No ayahs returned");
+    const data = arabicSurah.ayahs.map((ar, i) => ({
+      id: ar.number,
+      verseKey: chapterId + ":" + ar.numberInSurah,
+      verseNumber: ar.numberInSurah,
+      juzNumber: ar.juz,
+      pageNumber: ar.page,
+      arabic: ar.text,
+      translation: (transSurah && transSurah.ayahs && transSurah.ayahs[i] && transSurah.ayahs[i].text) || "",
+      words: [],
+    }));
+    writeCache(key, data, TTL.verses);
+    return { data, error: null };
+  } catch (err) {
+    if (err.name === "AbortError") return { data: [], error: null };
+    return { data: [], error: "Could not load verses." };
+  }
+}
